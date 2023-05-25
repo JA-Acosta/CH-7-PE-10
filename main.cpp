@@ -2,10 +2,11 @@
 // 05/25/2023
 // C++ Primer Plus 6th Ed
 // CH 7 Program Ex 10
-// Version 3
+// Version 4
  
 // Updates:
-// +userInput function
+// +printSolutions function
+// +struct solutions
 
 // Future goals:
 // print the questions and solutions to a txt file.
@@ -30,15 +31,25 @@
 using namespace std;
 
 // Global Constants and Structures:
+struct solutions
+{
+	double x;
+	double y;
+	double sum;
+	double multiply;
+	double subtract;
+	double divide;
+};
 
 
 // Prototypes:
-double calculate(double x, double y, double* ptr_f(double x, double y));
+double calculate(double x, double y, double (*ptr_f)(double x, double y));
 double add(double x, double y);
 double multiply(double x, double y);
 double subtract(double x, double y);
 double divide(double x, double y);
 bool userInput(double* x, double* y);
+void printSolutions(const solutions* inputs);
 
 int main()
 {
@@ -48,21 +59,25 @@ int main()
 		"acted on by the second value.\n" << endl;
 	cout << "To terminate the program input a non-numerical value for either"
 		" x or y.\n";
-	double x;
-	double y;
+	
+	solutions inputs;
 
-	while (userInput(&x, &y))
+	while (userInput(&inputs.x, &inputs.y))
 	{
-		cout << "Entered this loop\n";
+		inputs.sum = calculate(inputs.x, inputs.y, add);
+		inputs.multiply = calculate(inputs.x, inputs.y, multiply);
+		inputs.subtract = calculate(inputs.x, inputs.y, subtract);
+		inputs.divide = calculate(inputs.x, inputs.y, divide);
+		printSolutions(&inputs);
 	}
 }
 
 // Calculates the answer
 // Param: double x, double y, double * ptr_f
 // Return: double
-double calculate(double x, double y, double* ptr_f(double x, double y))
+double calculate(double x, double y, double (*ptr_f)(double x, double y))
 {
-	return *ptr_f(x, y);
+	return ptr_f(x, y);
 }
 
 // Adds two numbers and returns the solution.
@@ -104,11 +119,20 @@ double divide(double x, double y)
 // Return bool
 bool userInput(double* x, double* y)
 {
-	cout << "Enter a value for x : ";
+	cout << "\tEnter a value for x : ";
 	if (!(cin >> *x))
 		return false;
-	cout << "Enter a value for y : ";
+	cout << "\tEnter a value for y : ";
 	if (!(cin >> *y))
 		return false;
 	return true;
+}
+
+void printSolutions(const solutions* inputs)
+{
+	cout << "\nSOLUTIONS:\n";
+	cout << inputs->x << " + " << inputs->y << " = " << inputs->sum << "\n";
+	cout << inputs->x << " * " << inputs->y << " = " << inputs->multiply << "\n";
+	cout << inputs->x << " - " << inputs->y << " = " << inputs->subtract << "\n";
+	cout << inputs->x << " / " << inputs->y << " = " << inputs->divide << "\n\n";
 }
