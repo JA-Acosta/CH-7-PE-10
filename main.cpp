@@ -1,14 +1,15 @@
 // JAAR
-// 05/25/2023
+// 05/26/2023
 // C++ Primer Plus 6th Ed
 // CH 7 Program Ex 10
-// Version 5
+// Version 6
  
 // Updates:
-// +inline functions: add, subtract, multiply, and divide
+// +print to file function
 
 // Future goals:
-// print the questions and solutions to a txt file.
+// TODO: is it possible to extract print to a function?
+// update potential pointers to references where possible.
 
 // Potential Use cases/errors:
 
@@ -26,6 +27,7 @@
 #include <iostream>
 #include <cctype>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -56,15 +58,17 @@ void printSolutions(const solutions* inputs);
 
 int main()
 {
+	ofstream pout( "Solutions.txt" );
+	solutions inputs;
+	int input_count = 1;
 	cout << "Enter consecutive pairs of numbers and I will calculate the solution"
 		" for their summation, multiplication, division, and subtraction.\n";
 	cout << "\tNote: For the subtraction and division function, the first value will be "
 		"acted on by the second value.\n" << endl;
 	cout << "To terminate the program input a non-numerical value for either"
 		" x or y.\n";
-	
-	solutions inputs;
 
+	pout << "Below Are all of the solutions for the pairs you inputted.\n";
 	while (userInput(&inputs.x, &inputs.y))
 	{
 		inputs.sum = calculate(inputs.x, inputs.y, add);
@@ -72,7 +76,15 @@ int main()
 		inputs.subtract = calculate(inputs.x, inputs.y, subtract);
 		inputs.divide = calculate(inputs.x, inputs.y, divide);
 		printSolutions(&inputs);
+		pout << input_count++ << ".\tSOLUTIONS:\n";
+		pout << inputs.x << " + " << inputs.y << " = " << inputs.sum << "\n";
+		pout << inputs.x << " * " << inputs.y << " = " << inputs.multiply << "\n";
+		pout << inputs.x << " - " << inputs.y << " = " << inputs.subtract << "\n";
+		pout << inputs.x << " / " << inputs.y << " = " << inputs.divide << "\n\n";	
 	}
+	pout << "DONE";
+	cout << "DONE";
+
 }
 
 // Calculates the answer
@@ -99,7 +111,10 @@ bool userInput(double* x, double* y)
 	return true;
 }
 
-void printSolutions(const solutions* inputs)
+// Prints the solution for each operation to the console for the user to see.
+// Param: const solutions* inputs
+// TODO: update with pointer
+void printSolutions( const solutions* inputs )
 {
 	cout << "\nSOLUTIONS:\n";
 	cout << inputs->x << " + " << inputs->y << " = " << inputs->sum << "\n";
