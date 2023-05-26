@@ -2,11 +2,10 @@
 // 05/25/2023
 // C++ Primer Plus 6th Ed
 // CH 7 Program Ex 10
-// Version 4
+// Version 5
  
 // Updates:
-// +printSolutions function
-// +struct solutions
+// +inline functions: add, subtract, multiply, and divide
 
 // Future goals:
 // print the questions and solutions to a txt file.
@@ -44,10 +43,14 @@ struct solutions
 
 // Prototypes:
 double calculate(double x, double y, double (*ptr_f)(double x, double y));
-double add(double x, double y);
-double multiply(double x, double y);
-double subtract(double x, double y);
-double divide(double x, double y);
+// Adds two numbers passed as arguments and returns the value.
+inline double add(double x, double y) { return x + y; };
+// multiplies two numbers passed as arguments and returns the value.
+inline double multiply(double x, double y) { return x * y; };
+// subtracts the second number from the first number and returns the value.
+inline double subtract(double x, double y){return x - y;};
+// divides the first number by the second number and returns the value.
+inline double divide(double x, double y){return x / y;};
 bool userInput(double* x, double* y);
 void printSolutions(const solutions* inputs);
 
@@ -78,38 +81,6 @@ int main()
 double calculate(double x, double y, double (*ptr_f)(double x, double y))
 {
 	return ptr_f(x, y);
-}
-
-// Adds two numbers and returns the solution.
-// Param: double x, double y
-// Return: double
-double add(double x, double y)
-{
-	return x + y;
-}
-
-// Multiplies two numbers and returns the solution.
-// Param: double x, double y
-// Return: double
-double multiply(double x, double y)
-{
-	return x * y;
-}
-
-// Subtracts the second number passed from the first and returns the solution.
-// Param: double x, double y
-// Return: double
-double subtract(double x, double y)
-{
-	return x - y;
-}
-
-// Divides the first number passed by the second number and returns the solution.
-// Param: double x, double y
-// Return: double
-double divide(double x, double y)
-{
-	return x / y;
 }
 
 // Asks the user for two values and if the user doesn't enter a valid number
