@@ -1,15 +1,17 @@
 // JAAR
-// 05/26/2023
+// 05/29/2023
 // C++ Primer Plus 6th Ed
 // CH 7 Program Ex 10
-// Version 6
+// Version 7
  
 // Updates:
-// +print to file function
+// +tolower function
+// +getFileName funciton
 
 // Future goals:
 // TODO: is it possible to extract print to a function?
 // update potential pointers to references where possible.
+// intake a .txt and calculate the answers for the expressions.
 
 // Potential Use cases/errors:
 
@@ -55,10 +57,13 @@ inline double subtract(double x, double y){return x - y;};
 inline double divide(double x, double y){return x / y;};
 bool userInput(double* x, double* y);
 void printSolutions(const solutions* inputs);
+void getFileName(ifstream& file);
+string tolower(string word);
 
 int main()
 {
 	ofstream pout( "Solutions.txt" );
+	ifstream file;
 	solutions inputs;
 	int input_count = 1;
 	cout << "Enter consecutive pairs of numbers and I will calculate the solution"
@@ -81,6 +86,29 @@ int main()
 		pout << inputs.x << " * " << inputs.y << " = " << inputs.multiply << "\n";
 		pout << inputs.x << " - " << inputs.y << " = " << inputs.subtract << "\n";
 		pout << inputs.x << " / " << inputs.y << " = " << inputs.divide << "\n\n";	
+	}
+
+	while (!cin)
+	{
+		cin.clear();
+		while (cin.get() != '\n')
+		{
+			continue;
+		}
+	}
+
+	string userResponse;
+	do
+	{
+		cout << "Do you have a file you want to evaluate? (yes/no): ";
+		getline(cin, userResponse);
+		userResponse = tolower(userResponse);
+	} while (userResponse != "yes" && userResponse != "no");
+
+	if (userResponse == "yes")
+	{
+		getFileName(file);
+		
 	}
 	pout << "DONE";
 	cout << "DONE";
@@ -121,4 +149,36 @@ void printSolutions( const solutions* inputs )
 	cout << inputs->x << " * " << inputs->y << " = " << inputs->multiply << "\n";
 	cout << inputs->x << " - " << inputs->y << " = " << inputs->subtract << "\n";
 	cout << inputs->x << " / " << inputs->y << " = " << inputs->divide << "\n\n";
+}
+
+
+// Asks the user for a file name and verifies that the file exists.
+// !Assume the user input file will have pairs separated by a comma.
+// Return: string input
+void getFileName(ifstream &file)
+{
+	string input;
+	do
+	{
+		cout << "Input the name of the file: ";
+		getline(cin, input);
+		file.open(input);
+	} while (!file);
+
+}
+
+// Evaluates each letter in a string and converts it to lowercase.
+// Param: string word
+// return: string word
+string tolower(string word)
+{
+	for (int i = 0; i < word.size(); i++)
+	{
+		if (!isalpha(word.at(i)))
+		{
+			continue;
+		}
+		word.at(i) = tolower(word.at(i));
+	}
+	return word;
 }
