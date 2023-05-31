@@ -1,15 +1,17 @@
 // JAAR
-// 05/29/2023
+// 05/31/2023
 // C++ Primer Plus 6th Ed
 // CH 7 Program Ex 10
-// Version 7
+// Version 8
  
 // Updates:
-// +tolower function
-// +getFileName funciton
+// +getpairs function (incomplete)
 
 // Future goals:
 // TODO: is it possible to extract print to a function?
+// TODO: If there are no solutions, do not create a solutions file.
+// TODO: include vector object to keep track of all solutions;
+// TODO: create a class that adds all data sets to a structure and then the vector.
 // update potential pointers to references where possible.
 // intake a .txt and calculate the answers for the expressions.
 
@@ -59,6 +61,7 @@ bool userInput(double* x, double* y);
 void printSolutions(const solutions* inputs);
 void getFileName(ifstream& file);
 string tolower(string word);
+string getPairs(iostream& file);
 
 int main()
 {
@@ -110,6 +113,7 @@ int main()
 		getFileName(file);
 		
 	}
+
 	pout << "DONE";
 	cout << "DONE";
 
@@ -164,7 +168,6 @@ void getFileName(ifstream &file)
 		getline(cin, input);
 		file.open(input);
 	} while (!file);
-
 }
 
 // Evaluates each letter in a string and converts it to lowercase.
@@ -181,4 +184,19 @@ string tolower(string word)
 		word.at(i) = tolower(word.at(i));
 	}
 	return word;
+}
+
+// Takes the data in a file and assigns it to a string which is then returned.
+// !assume the data is all on one line.
+// !assume the data is ordered pairs separated by a comma.
+// Param: iostream & file
+// Return: string fileInput
+string getPairs(iostream& file) 
+{
+	string fileInput;
+	getline(file, fileInput);
+	cout << fileInput;
+	int x, y;
+	// ToDo: learn and implement how to get an integer from a string passed from a file.
+	return fileInput;
 }
